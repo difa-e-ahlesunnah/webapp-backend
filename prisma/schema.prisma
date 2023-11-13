@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Post {
+  id         Int       @id @default(autoincrement())
+  romanTitle String    @db.LongText
+  hindiTitle String    @db.LongText
+  urduTitle  String    @db.LongText
+  thumbnail  String
+  rid        Int
+  status     String
+  admin      String
+  created_at DateTime  @default(now())
+  Content    Content[]
+
+  @@index([rid, status])
+}
+
+model Content {
+  cid        Int          @id @default(autoincrement())
+  language   LanguageType @default(Roman)
+  content    Json
+  post       Post         @relation(fields: [postId], references: [id])
+  created_at DateTime     @default(now())
+  postId     Int
+
+  @@index([language])
+}
+
+model Admin {
+  aid      Int    @id @default(autoincrement())
+  name     String
+  password String
+  status   String
+
+  @@index([name])
+}
+
+model App {
+  vid        Int    @id @default(autoincrement())
+  appVersion String
+  totalPosts Int
+}
+
+enum LanguageType {
+  Roman
+  Hindi
+  Urdu
+}
