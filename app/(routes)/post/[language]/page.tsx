@@ -29,7 +29,23 @@ export default async function UsersAllPost({
   });
   return (
     <main>
-      <div id="root-div">{JSON.stringify(allPost)}</div>
+      <div id="root-div">
+        {JSON.stringify(
+          allPost.map((m: any) => {
+            return {
+              thumbnail: m["thumbnail"],
+              created_at: m["created_at"],
+              rid: m["rid"],
+              id: m["id"],
+              title: m["romanTitle"]
+                ? m["romanTitle"]
+                : m["hindiTitle"]
+                ? m["hindiTitle"]
+                : m["urduTitle"],
+            };
+          })
+        )}
+      </div>
     </main>
   );
 }
