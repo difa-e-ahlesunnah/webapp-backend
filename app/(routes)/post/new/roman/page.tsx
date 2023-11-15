@@ -3,9 +3,9 @@ import prisma from "@/prisma/db";
 
 export const revalidate = process.env["NEXT_PUBLIC_Revalidate"] || 0;
 
-// export async function generateStaticParams() {
-//   return LanguageConstant;
-// }
+export async function generateStaticParams() {
+  return ["Roman"];
+}
 
 export default async function UsersAllPost() {
   const allPost = await ss();

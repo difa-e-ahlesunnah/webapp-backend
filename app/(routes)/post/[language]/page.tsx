@@ -8,9 +8,9 @@ type UsersAllPostProps = {
 };
 export const revalidate = process.env["NEXT_PUBLIC_Revalidate"] || 0;
 
-// export async function generateStaticParams() {
-//   return LanguageConstant;
-// }
+export async function generateStaticParams() {
+  return LanguageConstant;
+}
 
 export default async function UsersAllPost({
   params: { language },
