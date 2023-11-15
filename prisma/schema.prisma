@@ -27,11 +27,13 @@ model Content {
   cid        Int          @id @default(autoincrement())
   language   LanguageType @default(Roman)
   content    Json
+  audioFile  String
   post       Post         @relation(fields: [postId], references: [id])
   created_at DateTime     @default(now())
   postId     Int
 
   @@index([language])
+  @@index([postId])
 }
 
 model Admin {
@@ -44,9 +46,9 @@ model Admin {
 }
 
 model App {
-  vid        Int    @id @default(autoincrement())
-  appVersion String
-  totalPosts Int
+  vid             Int    @id @default(autoincrement())
+  appVersion      String
+  lastChangeIndex Int
 }
 
 enum LanguageType {

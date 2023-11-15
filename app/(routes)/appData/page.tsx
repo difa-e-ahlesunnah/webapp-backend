@@ -1,12 +1,12 @@
-import prisma from "@/prisma/db";
+// import prisma from "@/prisma/db";
 
-export const revalidate = process.env["NEXT_PUBLIC_Revalidate"] || 0;
+// export const revalidate = process.env["NEXT_PUBLIC_Revalidate"] || 0;
 
 export default async function AppGet() {
-  const data = await prisma.app.findFirst();
+  //   const data = await prisma.app.findFirst();
   return (
     <main>
-      <div id="root-div">{JSON.stringify(data)}</div>
+      {/* //       <div id="root-div">{JSON.stringify(data)}</div> */}
     </main>
   );
 }
