@@ -1,21 +1,14 @@
 import { LanguageConstant } from "@/app/constants";
 import prisma from "@/prisma/db";
 
-type UsersAllPostProps = {
-  params: {
-    language: string;
-  };
-};
 export const revalidate = process.env["NEXT_PUBLIC_Revalidate"] || 0;
 
 // export async function generateStaticParams() {
 //   return LanguageConstant;
 // }
 
-export default async function UsersAllPost({
-  params: { language },
-}: UsersAllPostProps) {
-  const allPost = await ss(language);
+export default async function UsersAllPost() {
+  const allPost = await ss();
   return (
     <main>
       <div id="root-div">
@@ -26,11 +19,7 @@ export default async function UsersAllPost({
               created_at: m["created_at"],
               rid: m["rid"],
               id: m["id"],
-              title: m["romanTitle"]
-                ? m["romanTitle"]
-                : m["hindiTitle"]
-                ? m["hindiTitle"]
-                : m["urduTitle"],
+              title: m["urduTitle"],
             };
           })
         )}
@@ -39,7 +28,7 @@ export default async function UsersAllPost({
   );
 }
 
-const ss = async (language: any) => {
+const ss = async () => {
   console.log("CALLING post DB");
   return await prisma.post.findMany({
     select: {
@@ -47,9 +36,7 @@ const ss = async (language: any) => {
       created_at: true,
       id: true,
       rid: true,
-      romanTitle: language == "Roman",
-      hindiTitle: language == "Hindi",
-      urduTitle: language == "Urdu",
+      urduTitle: true,
     },
     where: { status: "Active" },
   });

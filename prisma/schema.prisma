@@ -44,9 +44,9 @@ model Admin {
 }
 
 model App {
-  vid        Int    @id @default(autoincrement())
-  appVersion String
-  totalPosts Int
+  vid              Int    @id @default(autoincrement())
+  appVersion       String
+  lastFetchedIndex Int
 }
 
 enum LanguageType {

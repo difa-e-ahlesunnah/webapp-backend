@@ -5,7 +5,7 @@ export async function GET(request: Request) {
   const urlParams = new URLSearchParams(search);
   const path: string = urlParams.get("path") as string;
   try {
-    revalidatePath(path);
+    revalidatePath(path, "page");
   } catch (error: any) {
     return new Response(`Revalidate error: ${error.toString()}`, {
       status: 400,
