@@ -1,5 +1,19 @@
 import axios from "axios";
 
+// @ts-ignore
+// import MemoryStore from "cache-manager-memory-store";
+// import cacheManager from "cache-manager";
+
+// export const memStoreCache = async () =>
+//   await cacheManager.caching("memory", {
+//     ttl: 36400,
+//     // store: sqliteStore,
+//     // options: {
+//     // serializer: "json", // default is 'cbor'
+//     // ttl: 20, // TTL in seconds
+//     // }
+//   });
+
 export const LanguageConstant = [
   { language: "Roman" },
   { language: "Hindi" },

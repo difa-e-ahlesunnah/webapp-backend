@@ -1,3 +1,4 @@
+import { memStoreCache } from "@/app/constants";
 import prisma from "@/prisma/db";
 import { NextResponse } from "next/server";
 var cache = require("memory-cache");

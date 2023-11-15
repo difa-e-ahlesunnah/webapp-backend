@@ -1,15 +1,23 @@
 import prisma from "@/prisma/db";
 import { writeFileSync } from "fs";
+import { NextResponse } from "next/server";
 import { join } from "path";
 var cache = require("memory-cache");
+// import cache from 'memory-cache'
 
 export async function GET(request: Request) {
   const search = new URL(request.url!).search;
   const urlParams = new URLSearchParams(search);
   const key: string = urlParams.get("key") as string;
-  return new Response(await cache.delete(key), {
-    status: 200,
-  });
+  return NextResponse.json(
+    {
+      deleted: key == "all" ? await cache.clear() : await cache.del(key),
+      all: await cache.keys(),
+    },
+    {
+      status: 200,
+    }
+  );
   // const allPost = await prisma.post.findMany();
   // let roman: any[] = [];
   // let hindi: any[] = [];
