@@ -35,7 +35,7 @@ export async function GET(request: Request) {
   // const romanPath = join(process.cwd(), "/public/roman.json");
   // const hindiPath = join(process.cwd(), "/public/hindi.json");
   // const urduPath = join(process.cwd(), "/public/urdu.json");
-  const romanPath = join(process.cwd(), "/app/test/roman.json");
+  const romanPath = join(process.cwd(), "/test/roman.json");
   // const hindiPath = join(process.cwd(), "/public/hindi.json");
   // const urduPath = join(process.cwd(), "/public/urdu.json");
   console.log({ roman: roman.length, romanPath: romanPath });
