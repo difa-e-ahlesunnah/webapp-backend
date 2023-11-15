@@ -31,6 +31,7 @@ export async function GET(request: Request) {
     });
   });
   const romanPath = join(process.cwd(), "/public/roman.json");
+  console.log({ roman: roman.length, romanPath: romanPath });
   const hindiPath = join(process.cwd(), "/public/hindi.json");
   const urduPath = join(process.cwd(), "/public/urdu.json");
   await writeFileSync(romanPath, JSON.stringify(roman), "utf-8");
