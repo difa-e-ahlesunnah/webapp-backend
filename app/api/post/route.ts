@@ -32,13 +32,16 @@ export async function GET(request: Request) {
       title: f["urduTitle"],
     });
   });
-  const romanPath = join(process.cwd(), "/roman.json");
+  // const romanPath = join(process.cwd(), "/public/roman.json");
+  // const hindiPath = join(process.cwd(), "/public/hindi.json");
+  // const urduPath = join(process.cwd(), "/public/urdu.json");
+  const romanPath = join(process.cwd(), "/app/test/roman.json");
+  // const hindiPath = join(process.cwd(), "/public/hindi.json");
+  // const urduPath = join(process.cwd(), "/public/urdu.json");
   console.log({ roman: roman.length, romanPath: romanPath });
-  const hindiPath = join(process.cwd(), "/hindi.json");
-  const urduPath = join(process.cwd(), "/urdu.json");
   await writeFileSync(romanPath, JSON.stringify(roman), "utf-8");
-  await writeFileSync(hindiPath, JSON.stringify(roman), "utf-8");
-  await writeFileSync(urduPath, JSON.stringify(roman), "utf-8");
+  // await writeFileSync(hindiPath, JSON.stringify(roman), "utf-8");
+  // await writeFileSync(urduPath, JSON.stringify(roman), "utf-8");
 
   return new Response("Success!", {
     status: 200,
