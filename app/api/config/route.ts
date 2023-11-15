@@ -1,15 +1,16 @@
 import prisma from "@/prisma/db";
-import { writeFileSync } from "fs";
-import { join } from "path";
+import { NextResponse } from "next/server";
+var cache = require("memory-cache");
 
 export async function GET(request: Request) {
-  console.log("ADASDSAD");
+  const hasCache = cache.get("config");
+  if (hasCache) {
+    return NextResponse.json(
+      { cache: true, ...JSON.parse(hasCache) },
+      { status: 200 }
+    );
+  }
   const data = await prisma.app.findUnique({ where: { vid: 1 } });
-  console.log({ data });
-  const configPath = join(process.cwd(), "/public/config.json");
-  console.log({ configPath });
-  await writeFileSync(configPath, JSON.stringify(data), "utf-8");
-  return new Response("Success!", {
-    status: 200,
-  });
+  cache.put("config", JSON.stringify(data));
+  return NextResponse.json({ cache: false, ...data }, { status: 200 });
 }

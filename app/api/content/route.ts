@@ -1,37 +1,43 @@
 import prisma from "@/prisma/db";
-import { existsSync, unlinkSync, writeFileSync } from "fs";
-import { join } from "path";
+import { unlinkSync, writeFileSync } from "fs";
+import { NextResponse } from "next/server";
+var cache = require("memory-cache");
 
 export async function GET(request: Request) {
   const search = new URL(request.url!).search;
   const urlParams = new URLSearchParams(search);
   const postId: string = urlParams.get("postId") as string;
-  const romanPath = join(process.cwd(), `/public/roman/${postId}.json`);
-  const hindiPath = join(process.cwd(), `/public/hindi/${postId}.json`);
-  const urduPath = join(process.cwd(), `/public/urdu/${postId}.json`);
-  const isExist = await existsSync(romanPath);
-  if (isExist) {
-    await unlinkSync(romanPath);
-    await unlinkSync(hindiPath);
-    await unlinkSync(urduPath);
+  const language: string = urlParams.get("language") as string;
+  const key = `${[postId]}_${language}`;
+  const hasCache = cache.get(key);
+  if (hasCache) {
+    return NextResponse.json(
+      { cache: true, ...JSON.parse(hasCache) },
+      { status: 200 }
+    );
   }
-  console.log(isExist);
-  const post = await prisma.content.findMany({ where: { postId: +postId } });
+
+  const post = await prisma.content.findMany({
+    where: {
+      postId: +postId,
+      language:
+        language == "ro" ? "Roman" : language == "hi" ? "Hindi" : "Urdu",
+    },
+  });
   if (!post) {
-    return new Response("Error no post found!", {
-      status: 200,
-    });
+    return NextResponse.json(
+      { status: "Error no post found!" },
+      {
+        status: 203,
+      }
+    );
   }
-  post.forEach(async ({ language, ...rest }) => {
-    if (language == "Roman") {
-      await writeFileSync(romanPath, JSON.stringify(rest), "utf-8");
-    } else if (language == "Hindi") {
-      await writeFileSync(hindiPath, JSON.stringify(rest), "utf-8");
-    } else if (language == "Urdu") {
-      await writeFileSync(urduPath, JSON.stringify(rest), "utf-8");
+  console.log({ post });
+  cache.put(key, JSON.stringify(post));
+  return NextResponse.json(
+    { cache: false, ...post },
+    {
+      status: 200,
     }
-  });
-  return new Response("Success!", {
-    status: 200,
-  });
+  );
 }
