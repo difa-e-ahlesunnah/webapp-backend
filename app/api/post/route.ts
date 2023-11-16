@@ -17,27 +17,18 @@ export async function GET(request: Request) {
   let roman: any[] = [];
   let hindi: any[] = [];
   let urdu: any[] = [];
-  allPost.forEach((f) => {
+  allPost.forEach(({ romanTitle, hindiTitle, urduTitle, ...rest }) => {
     roman.push({
-      thumbnail: f["thumbnail"],
-      created_at: f["created_at"],
-      rid: f["rid"],
-      id: f["id"],
-      title: f["romanTitle"],
+      ...rest,
+      title: romanTitle,
     });
     hindi.push({
-      thumbnail: f["thumbnail"],
-      created_at: f["created_at"],
-      rid: f["rid"],
-      id: f["id"],
-      title: f["hindiTitle"],
+      ...rest,
+      title: hindiTitle,
     });
     urdu.push({
-      thumbnail: f["thumbnail"],
-      created_at: f["created_at"],
-      rid: f["rid"],
-      id: f["id"],
-      title: f["urduTitle"],
+      ...rest,
+      title: urduTitle,
     });
   });
   try {

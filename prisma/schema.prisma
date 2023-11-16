@@ -16,9 +16,11 @@ model Post {
   thumbnail  String
   rid        Int
   status     String
-  admin      String
+  audioFile  String
   created_at DateTime  @default(now())
   Content    Content[]
+  adminAid   Int?
+  admin      String
 
   @@index([rid, status])
 }
@@ -27,7 +29,6 @@ model Content {
   cid        Int          @id @default(autoincrement())
   language   LanguageType @default(Roman)
   content    Json
-  audioFile  String
   post       Post         @relation(fields: [postId], references: [id])
   created_at DateTime     @default(now())
   postId     Int
