@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   const hasCache = cache.get(language);
   if (hasCache) {
     return NextResponse.json(
-      { cache: true, ...JSON.parse(hasCache) },
+      { cache: true, status: "Successful", data: JSON.parse(hasCache) },
       { status: 200 }
     );
   }
@@ -47,7 +47,8 @@ export async function GET(request: Request) {
     return NextResponse.json(
       {
         cache: false,
-        ...(language == "roman" ? roman : language == "hindi" ? hindi : urdu),
+        status: "Successful",
+        data: language == "roman" ? roman : language == "hindi" ? hindi : urdu,
       },
       { status: 200 }
     );

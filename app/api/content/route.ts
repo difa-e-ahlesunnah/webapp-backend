@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   const hasCache = cache.get(key);
   if (hasCache) {
     return NextResponse.json(
-      { cache: true, ...JSON.parse(hasCache) },
+      { cache: true, status: "Successful", data: JSON.parse(hasCache) },
       { status: 200 }
     );
   }
@@ -26,7 +26,7 @@ export async function GET(request: Request) {
   });
   if (!post) {
     return NextResponse.json(
-      { status: "Error no post found!" },
+      { status: "Error", data: "Error no post found!" },
       {
         status: 203,
       }
@@ -35,7 +35,7 @@ export async function GET(request: Request) {
   console.log({ post });
   cache.put(key, JSON.stringify(post));
   return NextResponse.json(
-    { cache: false, ...post },
+    { cache: false, status: "Successful", data: post },
     {
       status: 200,
     }
