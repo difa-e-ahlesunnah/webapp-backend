@@ -18,7 +18,10 @@ export async function GET(request: Request) {
       { status: 200 }
     );
   }
-  const allPost = await prisma.post.findMany({ orderBy: { rid: "desc" } });
+  const allPost = await prisma.post.findMany({
+    orderBy: { rid: "desc" },
+    where: { status: "Active" },
+  });
   let roman: any[] = [];
   let hindi: any[] = [];
   let urdu: any[] = [];
