@@ -1,9 +1,5 @@
-import prisma from "@/prisma/db";
-import { writeFileSync } from "fs";
 import { NextResponse } from "next/server";
-import { join } from "path";
 var cache = require("memory-cache");
-// import cache from 'memory-cache'
 
 export async function GET(request: Request) {
   const search = new URL(request.url!).search;

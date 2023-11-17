@@ -60,7 +60,7 @@ export async function GET(request: Request) {
 }
 
 const getlastChangeIndexFromCache = async () => {
-  const hasCache = cache.get("config");
+  const hasCache = cache.get("appConfig");
   if (hasCache) {
     const ss = JSON.parse(hasCache);
     if (ss != null) {
@@ -69,7 +69,7 @@ const getlastChangeIndexFromCache = async () => {
   }
   const data = await prisma.app.findUnique({ where: { vid: 1 } });
   if (data) {
-    cache.put("config", JSON.stringify(data));
+    cache.put("appConfig", JSON.stringify(data));
     return data["lastChangeIndex"];
   }
   return 0;
