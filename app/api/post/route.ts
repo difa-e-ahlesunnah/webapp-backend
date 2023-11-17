@@ -9,7 +9,12 @@ export async function GET(request: Request) {
   const hasCache = cache.get(language);
   if (hasCache) {
     return NextResponse.json(
-      { cache: true, status: "Successful", data: JSON.parse(hasCache) },
+      {
+        cache: true,
+        status: "Successful",
+        lastChangeIndex: await getlastChangeIndexFromCache(),
+        data: JSON.parse(hasCache),
+      },
       { status: 200 }
     );
   }
@@ -39,6 +44,7 @@ export async function GET(request: Request) {
       {
         cache: false,
         status: "Successful",
+        lastChangeIndex: await getlastChangeIndexFromCache(),
         data: language == "roman" ? roman : language == "hindi" ? hindi : urdu,
       },
       { status: 200 }
@@ -49,3 +55,24 @@ export async function GET(request: Request) {
     });
   }
 }
+
+const getlastChangeIndexFromCache = async () => {
+  const hasCache = cache.get("config");
+  if (hasCache) {
+    const ss = JSON.parse(hasCache);
+    if (ss != null) {
+      return ss["lastChangeIndex"];
+    }
+  }
+  const data = await prisma.app.findUnique({ where: { vid: 1 } });
+  if (data) {
+    cache.put("config", JSON.stringify(data));
+    return data["lastChangeIndex"];
+  }
+  return 0;
+};
+
+// @ts-ignore
+BigInt.prototype.toJSON = function () {
+  return this.toString();
+};

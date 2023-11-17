@@ -49,7 +49,7 @@ model Admin {
 model App {
   vid             Int    @id @default(autoincrement())
   appVersion      String
-  lastChangeIndex Int
+  lastChangeIndex BigInt
 }
 
 enum LanguageType {
