@@ -20,3 +20,8 @@ export async function GET(request: Request) {
     { status: 200 }
   );
 }
+
+// @ts-ignore
+BigInt.prototype.toJSON = function () {
+  return this.toString();
+};
