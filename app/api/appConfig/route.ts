@@ -6,7 +6,6 @@ export const revalidate = 0;
 
 export async function GET(request: Request) {
   const hasCache = cache.get("appConfig");
-  console.log({ hasCache });
   if (hasCache) {
     return NextResponse.json(
       { cache: true, status: "Successful", data: JSON.parse(hasCache) },
